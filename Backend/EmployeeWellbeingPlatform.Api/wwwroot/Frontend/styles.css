@@ -1,0 +1,306 @@
+/* Rich, deeper color palette for Employee Wellbeing Platform */
+:root {
+    --primary: #2c6e8f; /* Deeper teal blue */
+    --primary-light: #d1e6f0; /* Less bright teal */
+    --primary-dark: #18465c; /* Much deeper teal for contrast */
+    --accent: #52906e; /* Deeper sage green */
+    --accent-light: #d1e5d9; /* Less bright green */
+    --text-primary: #2c3945; /* Darker blue-gray for text */
+    --text-secondary: #505a64; /* Deeper gray for secondary text */
+    --background: #ecf0f3; /* Subtle off-white gray background */
+    --card-bg: #ffffff; /* White for card backgrounds */
+    --success: #3d8757; /* Deeper green for success states */
+    --warning: #c99638; /* Deeper gold for warnings */
+    --danger: #b85751; /* Deeper coral for errors */
+    --info: #4776ad; /* Deeper blue for info */
+    
+    /* Card and element borders */
+    --border-color: #d8e0e6;
+    --shadow-color: rgba(44, 57, 69, 0.1);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* App Container */
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+}
+
+/* Navbar Styles */
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: white !important;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.nav-link:hover {
+    color: white !important;
+}
+
+.nav-link.active {
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    color: white !important;
+}
+
+.navbar {
+    box-shadow: 0 2px 10px var(--shadow-color);
+    background-color: var(--primary) !important;
+}
+
+/* Card Styles */
+.card {
+    box-shadow: 0 4px 12px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background-color: var(--card-bg);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    box-shadow: 0 8px 20px var(--shadow-color);
+}
+
+.card-header {
+    padding: 1.25rem 1.5rem;
+    background-color: var(--primary-light);
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 10px 10px 0 0 !important;
+}
+
+.card-title {
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+.display-4 {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Mood Tracker Styles */
+.mood-scale {
+    margin-bottom: 15px;
+}
+
+.mood-scale i {
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+input[type="range"] {
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    background: var(--primary);
+}
+
+input[type="range"]::-moz-range-thumb {
+    background: var(--primary);
+}
+
+/* Recommendations Styles */
+.recommendation-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+}
+
+.recommendation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.badge {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.75rem;
+    padding: 0.5em 0.8em;
+    border-radius: 6px;
+}
+
+/* Category badges in recommendation cards */
+.recommendation-card .badge {
+    background-color: rgba(82, 144, 110, 0.2) !important;
+    color: var(--accent);
+    border: 1px solid rgba(82, 144, 110, 0.3);
+}
+
+.btn-group {
+    flex-wrap: wrap;
+}
+
+.btn-group .btn {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border-radius: 20px;
+}
+
+/* Page Navigation */
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+footer {
+    margin-top: auto;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    box-shadow: 0 4px 8px rgba(94, 146, 168, 0.2);
+}
+
+.btn-outline-primary {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+    border-color: var(--primary);
+}
+
+.btn-success {
+    background-color: var(--success);
+    border-color: var(--success);
+}
+
+/* Text colors */
+.text-primary {
+    color: var(--primary) !important;
+}
+
+/* Backgrounds */
+.bg-primary {
+    background-color: var(--primary) !important;
+}
+
+.bg-success {
+    background-color: var(--success) !important;
+}
+
+.bg-warning {
+    background-color: var(--warning) !important;
+}
+
+.bg-danger {
+    background-color: var(--danger) !important;
+}
+
+.bg-info {
+    background-color: var(--info) !important;
+}
+
+/* Charts */
+#moodChart {
+    transition: opacity 0.3s;
+}
+
+/* Status badge */
+#api-status {
+    transition: background-color 0.3s;
+    font-weight: normal;
+}
+
+/* Focus outlines - accessibility */
+:focus {
+    outline: 3px solid rgba(94, 146, 168, 0.3);
+    outline-offset: 2px;
+}
+
+/* Form elements */
+.form-control, .form-select {
+    border-radius: 8px;
+    border-color: #d1dbe3;
+    padding: 0.6rem 1rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(94, 146, 168, 0.2);
+}
+
+/* Alerts */
+.alert {
+    border: none;
+    border-radius: 8px;
+}
+
+.alert-success {
+    background-color: rgba(122, 185, 139, 0.15);
+    color: #35714b;
+}
+
+.alert-danger {
+    background-color: rgba(212, 131, 128, 0.15);
+    color: #a14a47;
+}
+
+/* Spinners */
+.spinner-border {
+    color: var(--primary);
+}
+
+/* Fix for category buttons */
+.category-filter.btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+.category-filter.btn-outline-primary {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.category-filter.btn-outline-primary:hover {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+/* Loaders */
+.loader-container {
+    padding: 2rem;
+    background-color: var(--primary-light);
+    border-radius: 8px;
+    opacity: 0.8;
+}

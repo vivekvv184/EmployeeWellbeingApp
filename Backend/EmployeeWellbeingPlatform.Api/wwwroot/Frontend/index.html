@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Wellbeing Platform</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Chatbot CSS -->
+    <link rel="stylesheet" href="chatbot.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-heartbeat me-2"></i>
+                Employee Wellbeing
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" data-page="dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-page="mood-tracker">Track Mood</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-page="recommendations">Recommendations</a>
+                    </li>
+                    <li class="nav-item admin-only" style="display: none;">
+                        <a class="nav-link" href="admin.html">
+                            <i class="fas fa-user-shield me-1"></i>Admin Dashboard
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mt-4">
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page active">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h2>Your Wellbeing Dashboard</h2>
+                            <div id="api-status" class="badge bg-secondary">Checking API...</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card text-center mb-3">
+                                        <div class="card-body" id="mood-display">
+                                            <div id="dashboard-metrics"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card" id="mood-chart-container">
+                                        <div class="card-body">
+                                            <h3 class="card-title">Your Mood Trends</h3>
+                                            <div style="height: 300px;" class="mood-chart-container">
+                                                <canvas id="moodChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- AI Insights Container (will be populated by ai-features.js) -->
+                                    <div id="ai-insights-container" class="mt-4"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3>Quick Actions</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="list-group">
+                                                <a href="#" class="list-group-item list-group-item-action" data-page-link="mood-tracker">
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <h5 class="mb-1">Record Your Mood</h5>
+                                                        <small><i class="fas fa-arrow-right"></i></small>
+                                                    </div>
+                                                    <p class="mb-1">How are you feeling today?</p>
+                                                </a>
+                                                <a href="#" class="list-group-item list-group-item-action" data-page-link="recommendations">
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <h5 class="mb-1">View Recommendations</h5>
+                                                        <small><i class="fas fa-arrow-right"></i></small>
+                                                    </div>
+                                                    <p class="mb-1">Personalized suggestions to improve your wellbeing</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3>Daily Tip</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">Mindful Breathing</h5>
+                                            <p class="card-text">Take a few minutes today to practice deep breathing. Inhale for a count of 4, hold for 4, and exhale for 6. This simple exercise can help reduce stress and improve focus.</p>
+                                            <a href="#" class="btn btn-primary">Learn More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mood Tracker Page -->
+        <div id="mood-tracker-page" class="page">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h2>Track Your Mood</h2>
+                        </div>
+                        <div class="card-body">
+                            <div id="mood-success-alert" class="alert alert-success d-none">
+                                <i class="fas fa-check-circle"></i> Your mood has been recorded successfully!
+                            </div>
+                            
+                            <div id="mood-error-alert" class="alert alert-danger d-none">
+                                <i class="fas fa-exclamation-circle"></i> An error occurred while recording your mood.
+                            </div>
+                            
+                            <form id="mood-form">
+                                <div class="mb-4">
+                                    <label class="form-label">How are you feeling today?</label>
+                                    <div class="d-flex justify-content-between mood-scale mb-3">
+                                        <div class="text-center mood-emoji-container" data-mood-score="1">
+                                            <i class="far fa-sad-tear fa-3x mood-emoji"></i>
+                                            <p>Very Bad</p>
+                                        </div>
+                                        <div class="text-center mood-emoji-container" data-mood-score="2">
+                                            <i class="far fa-frown fa-3x mood-emoji"></i>
+                                            <p>Bad</p>
+                                        </div>
+                                        <div class="text-center mood-emoji-container active" data-mood-score="3">
+                                            <i class="far fa-meh fa-3x mood-emoji"></i>
+                                            <p>Neutral</p>
+                                        </div>
+                                        <div class="text-center mood-emoji-container" data-mood-score="4">
+                                            <i class="far fa-smile fa-3x mood-emoji"></i>
+                                            <p>Good</p>
+                                        </div>
+                                        <div class="text-center mood-emoji-container" data-mood-score="5">
+                                            <i class="far fa-grin-beam fa-3x mood-emoji"></i>
+                                            <p>Very Good</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Hidden input to store the mood score -->
+                                    <input 
+                                        type="hidden" 
+                                        id="mood-score"
+                                        value="3">
+                                        
+                                    <style>
+                                        .mood-emoji-container {
+                                            cursor: pointer;
+                                            padding: 10px;
+                                            border-radius: 10px;
+                                            transition: all 0.3s ease;
+                                        }
+                                        .mood-emoji-container:hover {
+                                            transform: translateY(-5px);
+                                        }
+                                        .mood-emoji-container.active {
+                                            background-color: rgba(13, 110, 253, 0.1);
+                                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                                            transform: translateY(-5px);
+                                        }
+                                        .mood-emoji-container:nth-child(1) .mood-emoji {
+                                            color: #dc3545;
+                                        }
+                                        .mood-emoji-container:nth-child(2) .mood-emoji {
+                                            color: #fd7e14;
+                                        }
+                                        .mood-emoji-container:nth-child(3) .mood-emoji {
+                                            color: #ffc107;
+                                        }
+                                        .mood-emoji-container:nth-child(4) .mood-emoji {
+                                            color: #4db8ff;
+                                        }
+                                        .mood-emoji-container:nth-child(5) .mood-emoji {
+                                            color: #28a745;
+                                        }
+                                    </style>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="notes" class="form-label">Notes (optional)</label>
+                                    <textarea 
+                                        class="form-control" 
+                                        id="mood-notes" 
+                                        rows="3" 
+                                        placeholder="What's on your mind today?">
+                                    </textarea>
+                                    <div class="form-text text-end">
+                                        <span id="notes-count">0</span>/200
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between">
+                                    <button type="button" id="mood-clear-btn" class="btn btn-secondary">Clear</button>
+                                    <button type="submit" class="btn btn-primary">Record Mood</button>
+                                </div>
+                            </form>
+                            
+                            <div class="mt-4">
+                                <p class="text-muted">Regular mood tracking can help you understand patterns in your wellbeing and identify factors that might be affecting how you feel.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3 text-center">
+                        <a href="#" class="btn btn-link" data-page-link="dashboard">
+                            <i class="fas fa-arrow-left"></i> Return to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations Page -->
+        <div id="recommendations-page" class="page">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h2>Personalized Wellbeing Recommendations</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <h5>Filter by Category:</h5>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-primary category-filter" data-category="all">
+                                        All
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary category-filter" data-category="Exercise">
+                                        Exercise
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary category-filter" data-category="Mindfulness">
+                                        Mindfulness
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary category-filter" data-category="Social">
+                                        Social
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary category-filter" data-category="Work-Life Balance">
+                                        Work-Life Balance
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div id="recommendations-container">
+                                <!-- Recommendations will be dynamically added here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3 text-center">
+                        <a href="#" class="btn btn-link" data-page-link="dashboard">
+                            <i class="fas fa-arrow-left"></i> Return to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">
+                &copy; 2025 Employee Wellbeing Platform | Powered by AI
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+    <!-- Enhanced Visualizations -->
+    <script src="enhanced-charts.js"></script>
+    <!-- UX Enhancements -->
+    <script src="ux-enhancements.js"></script>
+    <!-- AI Features -->
+    <script src="ai-features.js"></script>
+    <!-- Chatbot Features -->
+    <script src="chatbot.js"></script>
+</body>
+</html>
